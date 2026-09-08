@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoundScope — Explore the Sound Behind the Genre</title>
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Plotly.js for interactive 2D and 3D scientific visualization -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <h1>SoundScope</h1>
+        <span>GTZAN Audio Analytics</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-item active" data-page="page-home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>Home</span>
+      </a>
+      <a class="nav-item" data-page="page-explorer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <span>Dataset Explorer</span>
+      </a>
+      <a class="nav-item" data-page="page-visualizer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <span>Audio Visualizer</span>
+      </a>
+      <a class="nav-item" data-page="page-featurespace">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span>Feature Space</span>
+      </a>
+      <a class="nav-item" data-page="page-comparison">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M18 20V10"></path>
+          <path d="M12 20V4"></path>
+          <path d="M6 20v-6"></path>
+        </svg>
+        <span>Genre Comparison</span>
+      </a>
+      <a class="nav-item" data-page="page-model">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+          <rect x="9" y="9" width="6" height="6"></rect>
+          <line x1="9" y1="1" x2="9" y2="4"></line>
+          <line x1="15" y1="1" x2="15" y2="4"></line>
+          <line x1="9" y1="20" x2="9" y2="23"></line>
+          <line x1="15" y1="20" x2="15" y2="23"></line>
+          <line x1="20" y1="9" x2="23" y2="9"></line>
+          <line x1="20" y1="14" x2="23" y2="14"></line>
+          <line x1="1" y1="9" x2="4" y2="9"></line>
+          <line x1="1" y1="14" x2="4" y2="14"></line>
+        </svg>
+        <span>Model & Explainability</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="dataset-badge">
+        <div>
+          <span class="status-dot"></span>
+          <span>GTZAN Dataset</span>
+        </div>
+        <strong>1,000 Tracks</strong>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Viewport -->
+  <main class="main-wrapper">
+
+    <!-- PAGE 1: HOME -->
+    <section id="page-home" class="page-container active">
+      <div class="hero-section">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            Advanced Music Information Retrieval Platform
+          </div>
+          <h2 class="hero-title">SoundScope: Explore the Sound Behind the Genre</h2>
+          <p class="hero-subtitle">
+            An interactive data visualization platform dissecting the acoustic geometry, spectral features, and deep neural activations of the benchmark GTZAN music genre dataset.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="navigateToPage('page-explorer')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              Explore Dataset
+            </button>
+            <button class="btn btn-secondary" onclick="navigateToPage('page-visualizer')">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              </svg>
+              Listen & Visualize Audio
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-wave">
+          <div class="wave-bar" style="height: 35px;"></div>
+          <div class="wave-bar" style="height: 60px;"></div>
+          <div class="wave-bar" style="height: 85px;"></div>
+          <div class="wave-bar" style="height: 45px;"></div>
+          <div class="wave-bar" style="height: 95px;"></div>
+          <div class="wave-bar" style="height: 70px;"></div>
+          <div class="wave-bar" style="height: 40px;"></div>
+          <div class="wave-bar" style="height: 80px;"></div>
+          <div class="wave-bar" style="height: 55px;"></div>
+          <div class="wave-bar" style="height: 30px;"></div>
+        </div>
+      </div>
+
+      <!-- Dynamic Dataset Statistics Cards -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon indigo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18V5l12-2v13"></path>
+              <circle cx="6" cy="18" r="3"></circle>
+              <circle cx="18" cy="16" r="3"></circle>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="stat-tracks">1,000</div>
+            <div class="stat-label">Total 30s Audio Tracks</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="stat-slices">9,990</div>
+            <div class="stat-label">3-Second Audio Slices</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">10</div>
+            <div class="stat-label">Balanced Music Genres</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon amber">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="stat-features">59</div>
+            <div class="stat-label">Acoustic & MFCC Features</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">22,050 Hz</div>
+            <div class="stat-label">Standard Audio Sample Rate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 Genre Overview Section -->
+      <div class="card" style="margin-bottom: 36px;">
+        <div class="card-title">
+          <span>GTZAN 10-Genre Acoustic Profiles</span>
+          <span class="metric-pill">100 tracks per genre</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 0.92rem;">
+          Click any genre card below to inspect its feature space and listen to representative audio.
+        </p>
+        <div class="genres-grid" id="genres-overview-grid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- Project Workflow Flowchart -->
+      <div class="workflow-section">
+        <div class="card-title">
+          <span>SoundScope End-to-End Analytical Workflow</span>
+          <span class="metric-pill">MIR + Explainable AI</span>
+        </div>
+        <div class="workflow-steps">
+          <div class="workflow-step">
+            <div class="step-num">1</div>
+            <div class="step-title">Raw Audio Ingestion</div>
+            <div class="step-detail">1,000 GTZAN clips @ 22,050Hz Mono PCM (30 sec each)</div>
+          </div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-step">
+            <div class="step-num">2</div>
+            <div class="step-title">Spectral Processing</div>
+            <div class="step-detail">STFT, 128 Mel Filterbanks, Chroma 12, MFCC 1-20</div>
+          </div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-step">
+            <div class="step-num">3</div>
+            <div class="step-title">R Analytics Engine</div>
+            <div class="step-detail">Rigorous Statistics, PCA, 2D/3D t-SNE & UMAP</div>
+          </div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-step">
+            <div class="step-num">4</div>
+            <div class="step-title">CNN & Grad-CAM</div>
+            <div class="step-detail">Conv2D Classifier + Gradient Activation Mapping</div>
+          </div>
+          <div class="workflow-arrow">→</div>
+          <div class="workflow-step">
+            <div class="step-num">5</div>
+            <div class="step-title">Interactive Dashboard</div>
+            <div class="step-detail">Web Audio API + Plotly 2D/3D visual exploration</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation to other pages -->
+      <div class="card-title" style="margin-bottom: 16px;">
+        <span>Platform Modules</span>
+      </div>
+      <div class="nav-cards-grid">
+        <div class="nav-explore-card" onclick="navigateToPage('page-explorer')">
+          <div class="nav-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <h3>Dataset Explorer</h3>
+          <p>Inspect distributions, duration histograms, correlation heatmaps, and genre summary tables with CSV export.</p>
+          <span class="nav-card-link">Open Explorer →</span>
+        </div>
+
+        <div class="nav-explore-card" onclick="navigateToPage('page-visualizer')">
+          <div class="nav-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            </svg>
+          </div>
+          <h3>Audio Visualizer</h3>
+          <p>Play GTZAN tracks or upload custom audio. View real-time waveforms, Mel-spectrograms, MFCC, and Chroma heatmaps.</p>
+          <span class="nav-card-link">Open Visualizer →</span>
+        </div>
+
+        <div class="nav-explore-card" onclick="navigateToPage('page-featurespace')">
+          <div class="nav-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+            </svg>
+          </div>
+          <h3>Feature Space (2D & 3D)</h3>
+          <p>Explore high-dimensional embeddings using PCA (with Scree plot), 2D/3D UMAP, and 2D/3D t-SNE with interactive filtering.</p>
+          <span class="nav-card-link">Explore Manifolds →</span>
+        </div>
+
+        <div class="nav-explore-card" onclick="navigateToPage('page-comparison')">
+          <div class="nav-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 20V10"></path>
+              <path d="M12 20V4"></path>
+              <path d="M6 20v-6"></path>
+            </svg>
+          </div>
+          <h3>Genre Comparison</h3>
+          <p>Multi-genre comparison via Radar Charts, Violin plots, Parallel Coordinates, Scatter matrices, and automatic insights.</p>
+          <span class="nav-card-link">Compare Genres →</span>
+        </div>
+
+        <div class="nav-explore-card" onclick="navigateToPage('page-model')">
+          <div class="nav-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+            </svg>
+          </div>
+          <h3>Model & Explainability</h3>
+          <p>CNN architecture, 10x10 confusion matrix, per-genre metrics, prediction confidences, and Grad-CAM activation heatmaps.</p>
+          <span class="nav-card-link">View Explainability →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 2: DATASET EXPLORER -->
+    <section id="page-explorer" class="page-container">
+      <div class="page-header">
+        <h2>Dataset Explorer</h2>
+        <p>Comprehensive statistical breakdown, distributions, and correlation structure of GTZAN features.</p>
+      </div>
+
+      <!-- Controls bar -->
+      <div class="controls-bar">
+        <div class="control-group">
+          <label class="control-label" for="explorer-feature-select">Select Feature:</label>
+          <select id="explorer-feature-select" class="select-input">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="explorer-genre-filter">Filter Genre:</label>
+          <select id="explorer-genre-filter" class="select-input">
+            <option value="all">All 10 Genres (1,000 Tracks)</option>
+            <option value="blues">Blues</option>
+            <option value="classical">Classical</option>
+            <option value="country">Country</option>
+            <option value="disco">Disco</option>
+            <option value="hiphop">Hip-Hop</option>
+            <option value="jazz">Jazz</option>
+            <option value="metal">Metal</option>
+            <option value="pop">Pop</option>
+            <option value="reggae">Reggae</option>
+            <option value="rock">Rock</option>
+          </select>
+        </div>
+        <button class="btn btn-secondary" style="margin-left: auto;" onclick="downloadFilteredData('csv')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download CSV
+        </button>
+        <button class="btn btn-secondary" onclick="downloadFilteredData('json')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Download JSON
+        </button>
+      </div>
+
+      <!-- Top Charts: Genre distribution & Duration histogram -->
+      <div class="chart-grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>Genre Class Distribution</span>
+            <span class="metric-pill">Balanced: 100/genre</span>
+          </div>
+          <div id="chart-genre-distribution" class="plot-container-md"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Track Duration Verification</span>
+            <span class="metric-pill">Fixed 30.0 sec</span>
+          </div>
+          <div id="chart-duration-histogram" class="plot-container-md"></div>
+        </div>
+      </div>
+
+      <!-- Feature Distribution: Histogram, Box Plot, Violin Plot -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span id="dist-chart-title">Feature Distribution by Genre</span>
+          <div class="card-title-actions">
+            <div class="control-group">
+              <label class="control-label" style="font-size: 0.8rem;">Plot Type:</label>
+              <select id="dist-plot-type" class="select-input" style="padding: 4px 10px; font-size: 0.82rem;">
+                <option value="violin">Violin Plot</option>
+                <option value="box">Box Plot</option>
+                <option value="histogram">Histogram & Density</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div id="chart-feature-dist" class="plot-container-lg"></div>
+      </div>
+
+      <!-- Correlation Heatmap -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span>Pearson Correlation Heatmap (Acoustic Descriptors)</span>
+          <span class="metric-pill">Calculated in R</span>
+        </div>
+        <div id="chart-correlation-heatmap" class="plot-container-lg"></div>
+      </div>
+
+      <!-- Genre-wise Statistical Table -->
+      <div class="card">
+        <div class="card-title">
+          <span id="stats-table-title">Genre-Wise Summary Statistics</span>
+          <span class="metric-pill">Mean, Median, SD, Min, Max</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="genre-stats-table">
+            <thead>
+              <tr>
+                <th>Genre</th>
+                <th>Count</th>
+                <th>Mean</th>
+                <th>Median</th>
+                <th>Std Dev (SD)</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>IQR (Q25 - Q75)</th>
+              </tr>
+            </thead>
+            <tbody id="genre-stats-tbody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: AUDIO VISUALIZER -->
+    <section id="page-visualizer" class="page-container">
+      <div class="page-header">
+        <h2>Audio Visualizer</h2>
+        <p>Interactive waveform, Mel-spectrogram, MFCC, and Chroma heatmaps rendered via Web Audio API.</p>
+      </div>
+
+      <!-- Audio Player Control Card -->
+      <div class="card visualizer-top-grid">
+        <div class="player-card">
+          <div class="card-title">
+            <span>Audio Source</span>
+            <span class="metric-pill" id="current-track-tag">blues.00000.wav</span>
+          </div>
+
+          <div class="track-select-row">
+            <select id="audio-track-select" class="select-input" style="flex: 1;">
+              <option value="blues.00000.wav">Blues: Track 000 (Shuffle groove & guitar)</option>
+              <option value="classical.00000.wav">Classical: Track 000 (Orchestral counterpoint)</option>
+              <option value="country.00000.wav">Country: Track 000 (Acoustic fingerpicking)</option>
+              <option value="disco.00000.wav">Disco: Track 000 (Four-on-the-floor beat)</option>
+              <option value="hiphop.00000.wav">Hip-Hop: Track 000 (808 Boom-bap beat)</option>
+              <option value="jazz.00000.wav">Jazz: Track 000 (Swing ride & walking bass)</option>
+              <option value="metal.00000.wav">Metal: Track 000 (Distorted power chords)</option>
+              <option value="pop.00000.wav">Pop: Track 000 (Upbeat synth hook)</option>
+              <option value="reggae.00000.wav">Reggae: Track 000 (One-drop & offbeat skank)</option>
+              <option value="rock.00000.wav">Rock: Track 000 (Driving drums & rock riff)</option>
+            </select>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+            <label class="btn btn-secondary" style="font-size: 0.82rem; padding: 6px 14px; cursor: pointer;">
+              <input type="file" id="audio-file-upload" accept="audio/wav, audio/mp3, audio/ogg" style="display: none;">
+              Upload Custom Audio (WAV / MP3 / OGG)
+            </label>
+            <span id="upload-filename" style="font-size: 0.8rem; color: var(--text-muted); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">No file uploaded</span>
+          </div>
+
+          <div class="audio-controls-row">
+            <button id="btn-play-pause" class="btn-play">
+              <svg id="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <svg id="pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+            </button>
+
+            <div class="play-time-display">
+              <span id="time-current">00:00</span> / <span id="time-duration">15:00</span>
+            </div>
+
+            <input type="range" id="audio-seek-slider" class="seek-slider" min="0" max="100" value="0">
+
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              <input type="range" id="audio-volume" min="0" max="1" step="0.05" value="0.85" style="width: 70px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio Physical Specifications & Live Metrics -->
+        <div class="card" style="border: 1px solid var(--border-subtle);">
+          <div class="card-title">
+            <span>Acoustic Descriptors</span>
+            <span class="metric-pill">GTZAN Standard</span>
+          </div>
+          <div class="metadata-pills" style="margin-bottom: 16px;">
+            <div class="metric-pill">Duration: <strong id="meta-duration">15.0 s</strong></div>
+            <div class="metric-pill">Sample Rate: <strong id="meta-sr">22,050 Hz</strong></div>
+            <div class="metric-pill">Samples: <strong id="meta-samples">330,750</strong></div>
+            <div class="metric-pill">Format: <strong>16-bit Mono PCM</strong></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: var(--radius-sm);">
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Tempo (BPM)</div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #38bdf8;" id="metric-tempo">115.0</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: var(--radius-sm);">
+              <div style="font-size: 0.76rem; color: var(--text-muted);">RMS Energy</div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #a855f7;" id="metric-rms">0.1302</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: var(--radius-sm);">
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Spectral Centroid</div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #f59e0b;" id="metric-centroid">1784 Hz</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: var(--radius-sm);">
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Spectral Bandwidth</div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #10b981;" id="metric-bandwidth">2002 Hz</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: var(--radius-sm);">
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Spectral Rolloff</div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #ec4899;" id="metric-rolloff">3805 Hz</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: var(--radius-sm);">
+              <div style="font-size: 0.76rem; color: var(--text-muted);">Zero Crossing Rate</div>
+              <div style="font-size: 1.25rem; font-weight: 700; color: #ef4444;" id="metric-zcr">0.0830</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Waveform -->
+      <div class="card viz-panel">
+        <div class="card-title">
+          <span>Interactive Time-Domain Waveform</span>
+          <span class="metric-pill">Click to scrub / seek</span>
+        </div>
+        <div class="viz-canvas-container" id="waveform-container">
+          <canvas id="canvas-waveform" class="viz-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Mel-Spectrogram -->
+      <div class="card viz-panel">
+        <div class="card-title">
+          <span>Log-Frequency Mel-Spectrogram</span>
+          <span class="metric-pill">128 Mel Bins · 0 to 11,025 Hz</span>
+        </div>
+        <div id="plot-mel-spectrogram" class="spectrogram-container" style="width: 100%;"></div>
+      </div>
+
+      <!-- MFCC Heatmap & Chroma Heatmap -->
+      <div class="chart-grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>MFCC Heatmap</span>
+            <span class="metric-pill">20 Cepstral Coefficients</span>
+          </div>
+          <div id="plot-mfcc-heatmap" class="plot-container-md"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Chroma Pitch Class Heatmap</span>
+            <span class="metric-pill">12 Semitones (C to B)</span>
+          </div>
+          <div id="plot-chroma-heatmap" class="plot-container-md"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: FEATURE SPACE -->
+    <section id="page-featurespace" class="page-container">
+      <div class="page-header">
+        <h2>Feature Space & Dimensionality Reduction</h2>
+        <p>Unsupervised manifold projection and principal component geometry of 1,000 GTZAN tracks.</p>
+      </div>
+
+      <!-- Mode & Dimension Selector -->
+      <div class="controls-bar">
+        <div class="control-group">
+          <label class="control-label" for="dimred-method">Projection Method:</label>
+          <select id="dimred-method" class="select-input">
+            <option value="pca">PCA (Principal Component Analysis)</option>
+            <option value="umap">UMAP (Uniform Manifold Approximation)</option>
+            <option value="tsne">t-SNE (t-Distributed Stochastic Neighbor Embedding)</option>
+            <option value="scree">Scree Plot & Explained Variance</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="pca-axes-group">
+          <label class="control-label" for="pca-axes-select">PCA Planes:</label>
+          <select id="pca-axes-select" class="select-input">
+            <option value="pc1_pc2">PC1 vs PC2 (Dominant acoustic plane)</option>
+            <option value="pc1_pc3">PC1 vs PC3</option>
+            <option value="pc2_pc3">PC2 vs PC3</option>
+            <option value="pca_3d">3D PCA (PC1 vs PC2 vs PC3)</option>
+          </select>
+        </div>
+
+        <div class="control-group" id="manifold-dim-group" style="display: none;">
+          <label class="control-label" for="manifold-dim-select">Dimension:</label>
+          <select id="manifold-dim-select" class="select-input">
+            <option value="2d">2D Projection</option>
+            <option value="3d">3D Interactive Projection</option>
+          </select>
+        </div>
+
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+          <button class="btn btn-secondary" style="font-size: 0.82rem; padding: 6px 12px;" onclick="toggleAllGenres(true)">Select All</button>
+          <button class="btn btn-secondary" style="font-size: 0.82rem; padding: 6px 12px;" onclick="toggleAllGenres(false)">Clear All</button>
+        </div>
+      </div>
+
+      <!-- Genre Filtering Chips -->
+      <div class="card" style="padding: 14px 20px; margin-bottom: 20px;">
+        <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">
+          Active Genre Filters (Click to toggle):
+        </div>
+        <div id="genre-filter-chips" style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <!-- Dynamically generated chips -->
+        </div>
+      </div>
+
+      <!-- Main Feature Space Plot (2D/3D Scatter or Scree) -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span id="featurespace-title">PCA Projection: PC1 vs PC2</span>
+          <span class="metric-pill" id="featurespace-badge">1,000 data points</span>
+        </div>
+        <div id="plot-feature-space" class="plot-container-lg"></div>
+      </div>
+
+      <!-- Scree Plot Secondary Panel (When in Scree Mode) -->
+      <div id="scree-analysis-panel" class="card" style="margin-bottom: 24px; display: none;">
+        <div class="card-title">
+          <span>Eigenvalues & Cumulative Variance</span>
+          <span class="metric-pill">Top 15 Principal Components</span>
+        </div>
+        <div id="plot-scree-bars" class="plot-container-md"></div>
+      </div>
+
+      <!-- Data-Driven Interpretation Panel -->
+      <div class="card">
+        <div class="card-title">
+          <span>Data-Driven Manifold Interpretation</span>
+          <span class="metric-pill">Mathematically Verified in R</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 12px;">
+          <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <h4 style="color: #818cf8; font-size: 0.95rem; margin-bottom: 6px;">PC1: Spectral Brightness & Distortion</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+              PC1 accounts for the largest proportion of total variance. Positively loaded on <strong>Spectral Centroid, Rolloff, and Zero Crossing Rate</strong>. High values separate high-energy genres (Metal, Rock) from low-frequency genres (Classical, Jazz).
+            </p>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <h4 style="color: #06b6d4; font-size: 0.95rem; margin-bottom: 6px;">PC2: Rhythmic Pulse vs. Harmonic Timbre</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+              Positively correlated with <strong>RMS Energy and Beat Tempo</strong>, and inversely correlated with harmonic variance. Clearly differentiates percussive genres like Disco and Hip-Hop from acoustic Country and Blues.
+            </p>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <h4 style="color: #ec4899; font-size: 0.95rem; margin-bottom: 6px;">Manifold Topology (UMAP / t-SNE)</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+              UMAP and t-SNE resolve non-linear manifolds: <strong>Classical</strong> forms an isolated, compact cluster due to low RMS and high dynamic range. <strong>Metal</strong> occupies the opposite extreme. <strong>Rock, Country, and Blues</strong> exhibit overlapping neighborhoods due to shared guitar timbre.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 5: GENRE COMPARISON -->
+    <section id="page-comparison" class="page-container">
+      <div class="page-header">
+        <h2>Genre Comparison</h2>
+        <p>Direct multivariate contrast across genres via Radar charts, Violin plots, and Parallel Coordinates.</p>
+      </div>
+
+      <!-- Controls: Multi-Genre Selector -->
+      <div class="controls-bar">
+        <div class="control-group" style="width: 100%;">
+          <label class="control-label">Select Genres to Compare (2–10):</label>
+          <div id="comparison-genre-checkboxes" style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Automatic Data-Driven Insights Banner -->
+      <div class="insight-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <div class="insight-banner-content">
+          <h4>Automatic Data-Driven Insights (Calculated from GTZAN dataset)</h4>
+          <p id="dynamic-insight-text">
+            Comparing selected genres: Classical demonstrates the lowest mean spectral centroid (1,438 Hz) and lowest RMS energy (0.040), reflecting acoustic orchestral dynamics. Metal exhibits the highest zero crossing rate and spectral centroid (2,689 Hz), driven by continuous high-gain guitar overdrive.
+          </p>
+        </div>
+      </div>
+
+      <!-- Radar Chart & Genre-Feature Heatmap -->
+      <div class="chart-grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>Multivariate Acoustic Radar Profile</span>
+            <span class="metric-pill">Normalized [0 - 1]</span>
+          </div>
+          <div id="chart-radar-comparison" class="plot-container-md"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Genre-Feature Mean Heatmap</span>
+            <span class="metric-pill">Z-Score Standardized</span>
+          </div>
+          <div id="chart-genre-feature-heatmap" class="plot-container-md"></div>
+        </div>
+      </div>
+
+      <!-- Parallel Coordinates Plot -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span>Parallel Coordinates: Multi-Dimensional Genre Trajectories</span>
+          <span class="metric-pill">Drag axes to filter subsets</span>
+        </div>
+        <div id="chart-parallel-coords" class="plot-container-lg"></div>
+      </div>
+
+      <!-- Feature X vs Feature Y Scatter Plot -->
+      <div class="card">
+        <div class="card-title">
+          <span>Bivariate Feature Contrast (Feature X vs Feature Y)</span>
+          <div class="card-title-actions">
+            <div class="control-group">
+              <label class="control-label" style="font-size: 0.8rem;">X:</label>
+              <select id="scatter-x-select" class="select-input" style="padding: 4px 8px; font-size: 0.82rem;"></select>
+            </div>
+            <div class="control-group">
+              <label class="control-label" style="font-size: 0.8rem;">Y:</label>
+              <select id="scatter-y-select" class="select-input" style="padding: 4px 8px; font-size: 0.82rem;"></select>
+            </div>
+          </div>
+        </div>
+        <div id="chart-bivariate-scatter" class="plot-container-lg"></div>
+      </div>
+    </section>
+
+    <!-- PAGE 6: MODEL & EXPLAINABILITY -->
+    <section id="page-model" class="page-container">
+      <div class="page-header">
+        <h2>Model & Explainability (XAI)</h2>
+        <p>Convolutional Neural Network performance, 10x10 confusion matrix, and Grad-CAM Mel-spectrogram activation heatmaps.</p>
+      </div>
+
+      <!-- CNN Pipeline Diagram -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span>CNN Architecture for Music Genre Classification</span>
+          <span class="metric-pill">Input: 128x128 Mel-Spectrogram</span>
+        </div>
+        <div class="cnn-pipeline">
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">Input Spec</div>
+            <div class="cnn-layer-shape">128 × 128 × 1</div>
+            <div class="cnn-layer-details">Log Mel Bins</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">Conv2D (32)</div>
+            <div class="cnn-layer-shape">126 × 126 × 32</div>
+            <div class="cnn-layer-details">3×3, ReLU, BN</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">MaxPool2D</div>
+            <div class="cnn-layer-shape">63 × 63 × 32</div>
+            <div class="cnn-layer-details">2×2 Pool</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">Conv2D (64)</div>
+            <div class="cnn-layer-shape">61 × 61 × 64</div>
+            <div class="cnn-layer-details">3×3, ReLU, BN</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">MaxPool2D</div>
+            <div class="cnn-layer-shape">30 × 30 × 64</div>
+            <div class="cnn-layer-details">2×2 Pool</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block highlight">
+            <div class="cnn-layer-type">Conv2D (128)</div>
+            <div class="cnn-layer-shape">28 × 28 × 128</div>
+            <div class="cnn-layer-details">★ Grad-CAM Target</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">MaxPool2D</div>
+            <div class="cnn-layer-shape">14 × 14 × 128</div>
+            <div class="cnn-layer-details">2×2 Pool</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">Dense (256)</div>
+            <div class="cnn-layer-shape">256 units</div>
+            <div class="cnn-layer-details">Dropout (0.4)</div>
+          </div>
+          <div class="cnn-arrow">→</div>
+          <div class="cnn-layer-block">
+            <div class="cnn-layer-type">Softmax Output</div>
+            <div class="cnn-layer-shape">10 Genres</div>
+            <div class="cnn-layer-details">Probability Vector</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real Model Performance Metrics Overview -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="model-accuracy">69.0%</div>
+            <div class="stat-label">Overall Test Accuracy</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon indigo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="model-precision">0.695</div>
+            <div class="stat-label">Macro Precision</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="model-recall">0.690</div>
+            <div class="stat-label">Macro Recall</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon pink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value" id="model-f1">0.687</div>
+            <div class="stat-label">Macro F1-Score</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confusion Matrix & Prediction Probabilities -->
+      <div class="chart-grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>Interactive 10×10 Confusion Matrix</span>
+            <span class="metric-pill">Rows = Actual · Cols = Predicted</span>
+          </div>
+          <div id="plot-confusion-matrix" class="plot-container-md"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>Prediction Probabilities by Genre</span>
+            <select id="sample-pred-select" class="select-input" style="padding: 4px 10px; font-size: 0.82rem;">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div id="plot-prediction-probs" class="plot-container-md"></div>
+        </div>
+      </div>
+
+      <!-- Per-Genre Metrics Table -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span>Per-Genre Classification Report</span>
+          <span class="metric-pill">Test Set (200 tracks)</span>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="table-per-genre-metrics">
+            <thead>
+              <tr>
+                <th>Genre</th>
+                <th>Precision</th>
+                <th>Recall</th>
+                <th>F1-Score</th>
+                <th>Support</th>
+                <th>Classification Quality</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-per-genre-metrics">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Grad-CAM Explainability Section -->
+      <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">
+          <span>Grad-CAM Explainability on Mel-Spectrograms</span>
+          <div class="control-group">
+            <label class="control-label" style="font-size: 0.85rem;">Inspect Genre:</label>
+            <select id="gradcam-genre-select" class="select-input" style="padding: 4px 10px; font-size: 0.85rem;">
+              <option value="blues">Blues</option>
+              <option value="classical">Classical</option>
+              <option value="country">Country</option>
+              <option value="disco">Disco</option>
+              <option value="hiphop">Hip-Hop</option>
+              <option value="jazz">Jazz</option>
+              <option value="metal">Metal</option>
+              <option value="pop">Pop</option>
+              <option value="reggae">Reggae</option>
+              <option value="rock">Rock</option>
+            </select>
+          </div>
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+          Gradient-weighted Class Activation Mapping (Grad-CAM) calculates the gradient of the target genre score with respect to the final convolutional feature maps (Conv2D_2, 128 channels) to highlight the exact spectral and temporal regions guiding the CNN prediction.
+        </p>
+
+        <div class="gradcam-grid">
+          <div class="gradcam-card">
+            <h4>1. Input Mel-Spectrogram</h4>
+            <canvas id="canvas-gradcam-spec" class="gradcam-canvas" width="256" height="256"></canvas>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Time (x) vs Mel Frequency (y)</div>
+          </div>
+
+          <div class="gradcam-card">
+            <h4>2. Grad-CAM Activation Heatmap</h4>
+            <canvas id="canvas-gradcam-cam" class="gradcam-canvas" width="256" height="256"></canvas>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Normalized Activation (0 = Blue, 1 = Red)</div>
+          </div>
+
+          <div class="gradcam-card">
+            <h4>3. Guided Explainability Overlay</h4>
+            <canvas id="canvas-gradcam-overlay" class="gradcam-canvas" width="256" height="256"></canvas>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Alpha-blended neural focus area</div>
+          </div>
+        </div>
+
+        <div class="explain-text-box" id="gradcam-explanation-text">
+          <strong>Acoustic Rationale:</strong> The CNN model focuses heavily on mid-frequency bent guitar harmonics (500-1500 Hz) and shuffle rhythm syncopation in the lower time frames, characteristic of the 12-bar blues progression.
+        </div>
+      </div>
+
+      <!-- Misclassification Analysis Panel -->
+      <div class="card">
+        <div class="card-title">
+          <span>Misclassification Analysis: Acoustic Overlap Explanations</span>
+          <span class="metric-pill">Real Confusions from Test Set</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">
+          Audio classification errors in GTZAN are not random; they occur along well-defined acoustic boundaries where physical timbres and instrumentation overlap:
+        </p>
+        <div id="misclassification-list" style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SoundScope Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
